@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.digicap.dcblock.admin.model">
+
+	<insert id="insertUser" parameterType="com.digicap.dcblock.admin.model.UserDetail">
+		INSERT INTO users(
+			index, email, rfid, name, company, leave, regdate, updatedate)
+		VALUES(
+			default, #{email}, #{rfid}, #{name}, #{company}, #{leave}, now(), now())
+	</insert>
+	
+	<select id="selectUserAll" resultType="UserDetail">
+		select * from users;
+	</select>
+	
+	<select id="selectUserByRfid" resultType="UserDetail">
+		select * from users where rfid = #{rfid};
+	</select>
+	
+	<select id="selectUserByEmail" resultType="UserDetail">
+		select * from users where email = #{email};
+	</select>
+	
+	<select id="selectUserPaging" resultType="UserDetail">
+		select * from users order by regdate limit 10 offset (#{offset} -1) * 10
+	</select>
+	
+	<update id="updateUser" parameterType="UserDetail">
+		update 
+			users
+		set 
+			rfid = #{rfid},
+			name = #{name},
+			email = #{email},
+			company = #{company},
+			leave = #{leave},
+			updatedate = now()
+		where 
+			index = #{index}
+	</update>
+	
+	<delete id="deleteUser">
+		delete from
+			users
+		where 
+			index = #{index}
+	</delete>
+	
+</mapper>

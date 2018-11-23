@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.digicap.dcblock.admin.model">
+
+	<!-- 
+	<insert id="insertAdmin"
+		parameterType="com.digicap.dcblock.admin.model.AdminDetail" useGeneratedKeys="true"
+		keyProperty="index">
+		INSERT INTO admin(
+			index, id, password, name, email, company, permission, regdate, updatedate)
+		VALUES(
+			default, #{id}, #{password}, #{name}, #{email}, #{permission}, now(), now())
+	</insert>
+	-->
+	
+	<insert id="insertAdmin"
+		parameterType="com.digicap.dcblock.admin.model.AdminDetail">
+		INSERT INTO admin(
+			index, id, password, name, email, company, permission, regdate, updatedate)
+		VALUES(
+			default, #{id}, #{password}, #{name}, #{email}, #{company}, #{permission}, now(), now())
+	</insert>
+	
+	<select id="selectAdminAll" resultType="AdminDetail">
+		select * from admin;
+	</select>
+	
+	<select id="selectAdminById" resultType="AdminDetail">
+		select * from admin where id = #{id};
+	</select>
+	
+	<select id="selectAdminLogin" resultType="AdminDetail">
+		select * from admin where id = #{id} and password = #{password};
+	</select>
+	
+	<update id="updateAdmin" parameterType="AdminDetail">
+		update 
+			admin
+		set 
+			password = #{password},
+			name = #{name},
+			email = #{email},
+			company = #{company},
+			permission = #{permission},
+			updatedate = now()
+		where 
+			id = #{id}
+	</update>
+	
+	<delete id="deleteAdmin">
+		delete from
+			admin
+		where 
+			id = #{id}
+	</delete>
+	
+</mapper>

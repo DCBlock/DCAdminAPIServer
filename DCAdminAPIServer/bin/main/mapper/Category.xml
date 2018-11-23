@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.digicap.dcblock.admin.model">
+
+	<select id="selectAllCategory" resultType="CategoryDetail">
+		select * from category;
+	</select>
+	
+	<select id="selectCategoryByCode" resultType="CategoryDetail">
+		select * from category where code = #{code}
+	</select>
+	
+	<insert id="insertCategory" parameterType="com.digicap.dcblock.admin.model.CategoryDetail">
+		insert into 
+			category(name, order, code)
+		values
+			(#{name}, #{order}, #{code})
+	</insert>
+	
+	<insert id="insertCategory" parameterType="com.digicap.dcblock.admin.model.CategoryDetail">
+		insert into 
+			category(name, order, code)
+		values
+			(#{name}, #{order}, #{code})
+	</insert>
+	
+	<update id="updateCategory" parameterType="CategoryDetail">
+		update 
+			category
+		set 
+			name = #{name},
+			order = #{order}
+		where 
+			code = #{code}
+	</update>
+
+</mapper>
