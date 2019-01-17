@@ -18,9 +18,9 @@
 	<insert id="insertAdmin"
 		parameterType="com.digicap.dcblock.admin.model.AdminDetail">
 		INSERT INTO admin(
-			index, id, password, name, email, company, permission, regdate, updatedate)
+			index, id, password, name, email, company, scope, manageuser, managemenu, viewstatistics, manageadmin, regdate, updatedate)
 		VALUES(
-			default, #{id}, #{password}, #{name}, #{email}, #{company}, #{permission}, now(), now())
+			default, #{id}, #{password}, #{name}, #{email}, #{company}, #{scope}, #{manageuser}, #{managemenu}, #{viewstatistics}, #{manageadmin}, now(), now())
 	</insert>
 	
 	<select id="selectAdminAll" resultType="AdminDetail">
@@ -39,11 +39,15 @@
 		update 
 			admin
 		set 
-			password = #{password},
+			<!-- password = #{password}, -->
 			name = #{name},
 			email = #{email},
 			company = #{company},
-			permission = #{permission},
+			scope = #{scope},
+			manageuser = #{manageuser}, 
+			managemenu = #{managemenu}, 
+			viewstatistics = #{viewstatistics}, 
+			manageadmin = #{manageadmin},
 			updatedate = now()
 		where 
 			id = #{id}

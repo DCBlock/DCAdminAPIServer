@@ -22,8 +22,9 @@ public class CustomErrorController implements ErrorController{
     @RequestMapping("/error")
     public ResponseEntity<String> handleError(HttpServletRequest request) {
 		MultiValueMap<String, String> headers = new HttpHeaders();
-		headers.put("Content-Type", Arrays.asList("application/json"));
-		
+		//headers.put("Content-Type", Arrays.asList("application/json"));
+		headers.put("Content-Type", Arrays.asList("application/json; charset=utf-8"));
+
     	String response = "";
 		try {
 			ResponseMessage resMessage = new ResponseMessage();

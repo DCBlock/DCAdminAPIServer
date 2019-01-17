@@ -5,7 +5,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,11 +29,17 @@ import com.digicap.dcblock.admin.model.ResponseMessage;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+@Configuration
+@PropertySource("classpath:/config/common.properties")
 @RestController
 public class AdminController {
 
 	@Autowired
 	private AdminDAO adminDao;
+	
+	@Deprecated
+	@Value("${SHA_256_KEY}")
+	private String shaKey;
 	
 	@GetMapping("/api/admin")
 	public ResponseEntity<String> getAllAdminInfo(HttpServletRequest req){
@@ -57,6 +67,7 @@ public class AdminController {
 	@GetMapping("/api/admin/{id}")
 	public ResponseEntity<String> getAdminByIndex(@PathVariable("id") String id, HttpServletRequest req){
 		AdminDetail adminDetail = adminDao.selectAdminById(id);
+		
 		if(adminDetail != null) {
 			MultiValueMap<String, String> headers = new HttpHeaders();
 			headers.put("Content-Type", Arrays.asList("application/json"));
@@ -79,12 +90,19 @@ public class AdminController {
 		int retVal = 0;
 	
 		if(adminDetail != null) {
+			
+			//TODO: ~~Password SHA256 적용~~ Front단에서 처리하기로 함
+			//String sha256 = DigestUtils.sha256Hex(adminDetail.getPassword() + shaKey);			
+			//adminDetail.setPassword(sha256);
+			
+			//TODO: 중복된 id 값이 요청올 경우 exception 처리 혹은 ID 중복체크 URL 만들 것
 			retVal = adminDao.insertAdmin(adminDetail);
 			
 			if(retVal != 0) {
 				MultiValueMap<String, String> headers = new HttpHeaders();
-				headers.put("Content-Type", Arrays.asList("application/json"));
-				
+				//headers.put("Content-Type", Arrays.asList("application/json"));
+				headers.put("Content-Type", Arrays.asList("application/json; charset=utf-8"));
+
 				String response = "";
 				try {
 					ResponseMessage resMessage = new ResponseMessage();
@@ -117,8 +135,9 @@ public class AdminController {
 			
 			if(retVal != 0) {
 				MultiValueMap<String, String> headers = new HttpHeaders();
-				headers.put("Content-Type", Arrays.asList("application/json"));
-				
+				//headers.put("Content-Type", Arrays.asList("application/json"));
+				headers.put("Content-Type", Arrays.asList("application/json; charset=utf-8"));
+
 				String response = "";
 				try {
 					ResponseMessage resMessage = new ResponseMessage();
@@ -146,8 +165,9 @@ public class AdminController {
 			
 			if(retVal != 0) {
 				MultiValueMap<String, String> headers = new HttpHeaders();
-				headers.put("Content-Type", Arrays.asList("application/json"));
-				
+				//headers.put("Content-Type", Arrays.asList("application/json"));
+				headers.put("Content-Type", Arrays.asList("application/json; charset=utf-8"));
+
 				String response = "";
 				try {
 					ResponseMessage resMessage = new ResponseMessage();

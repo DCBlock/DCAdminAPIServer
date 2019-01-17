@@ -12,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -28,6 +29,7 @@ import com.digicap.dcblock.admin.model.UserDetail;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+@CrossOrigin("*")
 @RestController
 public class UserController {
 
@@ -37,7 +39,8 @@ public class UserController {
 	@GetMapping("/api/users")
 	public ResponseEntity<String> getUsersByRfid(@RequestParam Map<String, String> parameter, HttpServletRequest req) {
 		MultiValueMap<String, String> headers = new HttpHeaders();
-		headers.put("Content-Type", Arrays.asList("application/json"));
+		//headers.put("Content-Type", Arrays.asList("application/json"));
+		headers.put("Content-Type", Arrays.asList("application/json; charset=utf-8"));
 
 		String response = "";
 		
@@ -57,15 +60,18 @@ public class UserController {
 			userDetail = userDao.selectUserByRfid(rfid);
 		}
 
-		try {
-			response = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(userDetail);
+		if(userDetail != null) {
+			try {
+				response = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(userDetail);
 
-			return new ResponseEntity<String>(response, headers, HttpStatus.OK);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
+				return new ResponseEntity<String>(response, headers, HttpStatus.OK);
+			} catch (JsonProcessingException e) {
+				e.printStackTrace(); 
+			}
 		}
-
+		
 		return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+
 	}
 	
 	@GetMapping("/api/users/page/{paging}")
@@ -77,7 +83,8 @@ public class UserController {
 			user.setUserDetail(userList);
 
 			MultiValueMap<String, String> headers = new HttpHeaders();
-			headers.put("Content-Type", Arrays.asList("application/json"));
+			//headers.put("Content-Type", Arrays.asList("application/json"));
+			headers.put("Content-Type", Arrays.asList("application/json; charset=utf-8"));
 
 			String response = "";
 			try {
@@ -102,7 +109,8 @@ public class UserController {
 
 			if (retVal != 0) {
 				MultiValueMap<String, String> headers = new HttpHeaders();
-				headers.put("Content-Type", Arrays.asList("application/json"));
+				//headers.put("Content-Type", Arrays.asList("application/json"));
+				headers.put("Content-Type", Arrays.asList("application/json; charset=utf-8"));
 
 				String response = "";
 				try {
@@ -136,8 +144,9 @@ public class UserController {
 			
 			if(retVal != 0) {
 				MultiValueMap<String, String> headers = new HttpHeaders();
-				headers.put("Content-Type", Arrays.asList("application/json"));
-				
+				//headers.put("Content-Type", Arrays.asList("application/json"));
+				headers.put("Content-Type", Arrays.asList("application/json; charset=utf-8"));
+
 				String response = "";
 				try {
 					ResponseMessage resMessage = new ResponseMessage();
@@ -165,8 +174,9 @@ public class UserController {
 			
 			if(retVal != 0) {
 				MultiValueMap<String, String> headers = new HttpHeaders();
-				headers.put("Content-Type", Arrays.asList("application/json"));
-				
+				//headers.put("Content-Type", Arrays.asList("application/json"));
+				headers.put("Content-Type", Arrays.asList("application/json; charset=utf-8"));
+
 				String response = "";
 				try {
 					ResponseMessage resMessage = new ResponseMessage();

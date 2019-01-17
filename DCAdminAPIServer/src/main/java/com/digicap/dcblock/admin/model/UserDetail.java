@@ -5,6 +5,7 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+//@JsonIgnoreProperties({ "index", "regdate", "updatedate" })
 public class UserDetail {
 
 	@JsonProperty("index")
