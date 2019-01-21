@@ -79,7 +79,7 @@ public class LoginController {
 			map = adminService.checkLogin(adminDetail);	
 		}
 		
-		System.out.println("Return Value(map) : " + map);
+		//System.out.println("Return Value(map) : " + map);
 
 		if (map != null) {
 			try {
@@ -87,7 +87,7 @@ public class LoginController {
 
 				Date isu = new Date(System.currentTimeMillis());
 				Date exp = new Date(System.currentTimeMillis() + expTime);
-
+				
 				Algorithm algHmac = Algorithm.HMAC256(hmacKey);
 				HashMap<String, Object> headerClaims = new HashMap<String, Object>();
 				headerClaims.put("typ", "JWT");
@@ -182,7 +182,7 @@ public class LoginController {
 
 			}
 		} catch (JWTVerificationException e) {
-			System.out.println("Error : " + e.getMessage());
+			//System.out.println("Error : " + e.getMessage());
 			resMessage.setCode(HttpStatus.BAD_REQUEST.value());
 			resMessage.setReason("TOKEN_EXPIRED");
 

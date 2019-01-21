@@ -48,7 +48,7 @@ public class UserController {
 
 		String response = "";
 		
-		System.out.println("Request Addr : " + req.getRemoteAddr());
+		//System.out.println("Request Addr : " + req.getRemoteAddr());
 		
 		String rfid = parameter.get("rfid").trim();
 		UserDetail userDetail = new UserDetail();

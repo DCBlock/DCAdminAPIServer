@@ -26,7 +26,7 @@ public class AdminService {
 		if(checkAdminInfo == null) {
 			map = null;
 		} else {
-			if(adminDetail.getPassword().equals(checkAdminInfo.getPassword())) {
+			if(adminDetail.getPassword().equalsIgnoreCase(checkAdminInfo.getPassword())) {
 				
 				/* Deprecated
 				if(checkAdminInfo.getPermission() == 1000) {
