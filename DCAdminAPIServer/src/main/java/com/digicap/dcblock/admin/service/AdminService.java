@@ -63,4 +63,15 @@ public class AdminService {
 		
 		return map;
 	}
+	
+	public int getAdminTotalPages() {
+		int retVal = 0;
+		
+		int totalPages = adminDao.selectAdminTotalPages();
+		if(totalPages > 0) {
+			retVal = (totalPages + 10) / 10;
+		}
+		
+		return retVal;
+	}
 }

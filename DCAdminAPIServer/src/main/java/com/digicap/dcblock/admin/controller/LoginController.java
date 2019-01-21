@@ -9,7 +9,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -30,7 +29,6 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.digicap.dcblock.admin.model.AdminDetail;
 import com.digicap.dcblock.admin.model.ResponseMessage;
 import com.digicap.dcblock.admin.service.AdminService;
-import com.digicap.dcblock.admin.utils.HashGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -48,6 +46,7 @@ public class LoginController {
 	@Value("${ISSUER}")
 	private String issuer;
 	
+	@Deprecated
 	@Value("${SHA_256_KEY}")
 	private String shaKey;
 

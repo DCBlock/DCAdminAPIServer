@@ -37,4 +37,8 @@ public class AdminDAO {
 	public int deleteAdmin(String id) {
 		return this.sqlSession.delete("deleteAdmin", id);
 	}
+	
+	public int selectAdminTotalPages() {
+		return this.sqlSession.selectOne("selectAdminTotalPages");
+	}
 }

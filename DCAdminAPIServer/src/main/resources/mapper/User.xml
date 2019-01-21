@@ -27,6 +27,10 @@
 		select * from users order by regdate limit 10 offset (#{offset} -1) * 10
 	</select>
 	
+	<select id="selectUserTotalPages" resultType="java.lang.Integer">
+		select count(*) from users
+	</select>
+	
 	<update id="updateUser" parameterType="UserDetail">
 		update 
 			users

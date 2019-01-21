@@ -2,6 +2,7 @@ package com.digicap.dcblock.admin.controller;
 
 import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,8 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.digicap.dcblock.admin.dao.UserDAO;
 import com.digicap.dcblock.admin.model.ResponseMessage;
-import com.digicap.dcblock.admin.model.User;
 import com.digicap.dcblock.admin.model.UserDetail;
+import com.digicap.dcblock.admin.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -35,6 +36,9 @@ public class UserController {
 
 	@Autowired
 	private UserDAO userDao;
+	
+	@Autowired
+	private UserService userService;
 
 	@GetMapping("/api/users")
 	public ResponseEntity<String> getUsersByRfid(@RequestParam Map<String, String> parameter, HttpServletRequest req) {
@@ -76,19 +80,27 @@ public class UserController {
 	
 	@GetMapping("/api/users/page/{paging}")
 	public ResponseEntity<String> getUserInfoPaging(@PathVariable("paging") int paging, HttpServletRequest req){
-		User user = new User();
+		//User user = new User();
 		List<UserDetail> userList = userDao.selectUserPaging(paging);
 
+		//TotalPages
+		int totalPages = userService.getUserTotalPages();
+		
 		if (userList != null) {
-			user.setUserDetail(userList);
+			//user.setUserDetail(userList);
 
 			MultiValueMap<String, String> headers = new HttpHeaders();
 			//headers.put("Content-Type", Arrays.asList("application/json"));
 			headers.put("Content-Type", Arrays.asList("application/json; charset=utf-8"));
 
+			LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+			map.put("total_pages", totalPages);
+			map.put("lists", userList);
+			
 			String response = "";
 			try {
-				response = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(user);
+				//response = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(user);
+				response = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(map);
 
 				return new ResponseEntity<String>(response, headers, HttpStatus.OK);
 			} catch (JsonProcessingException e) {
@@ -105,7 +117,8 @@ public class UserController {
 		int retVal = 0;
 
 		if (userDetail != null) {
-			retVal = userDao.insertUser(userDetail);
+			//retVal = userDao.insertUser(userDetail);
+			retVal = userService.insertUserCheck(userDetail);
 
 			if (retVal != 0) {
 				MultiValueMap<String, String> headers = new HttpHeaders();
@@ -115,8 +128,17 @@ public class UserController {
 				String response = "";
 				try {
 					ResponseMessage resMessage = new ResponseMessage();
-					resMessage.setCode(HttpStatus.OK.value());
-					resMessage.setReason("success");
+					
+					if(retVal == -100) {
+						resMessage.setCode(-100);
+						resMessage.setReason("EMAIL OR RFID VALUE IS NULL");
+					} else if(retVal == -200){
+						resMessage.setCode(-200);
+						resMessage.setReason("EMAIL OR RFID VALUE IS EXIST");
+					} else {
+						resMessage.setCode(HttpStatus.OK.value());
+						resMessage.setReason("success");	
+					}
 
 					response = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(resMessage);
 

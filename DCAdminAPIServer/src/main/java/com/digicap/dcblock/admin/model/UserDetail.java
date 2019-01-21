@@ -3,6 +3,7 @@ package com.digicap.dcblock.admin.model;
 import java.math.BigInteger;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 //@JsonIgnoreProperties({ "index", "regdate", "updatedate" })
@@ -26,9 +27,11 @@ public class UserDetail {
 	@JsonProperty("leave")
 	private Boolean leave;
 
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone="GMT+9")
 	@JsonProperty("regdate")
 	private Date regdate;
 
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone="GMT+9")
 	@JsonProperty("updatedate")
 	private Date updatedate;
 

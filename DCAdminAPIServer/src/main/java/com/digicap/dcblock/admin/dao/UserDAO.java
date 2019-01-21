@@ -35,6 +35,10 @@ public class UserDAO {
 		return this.sqlSession.selectList("selectUserPaging", offset);
 	}
 	
+	public int selectUserTotalPages() {
+		return this.sqlSession.selectOne("selectUserTotalPages");
+	}
+	
 	public int updateUser(UserDetail userDetail) {
 		return this.sqlSession.update("updateUser", userDetail);
 	}
