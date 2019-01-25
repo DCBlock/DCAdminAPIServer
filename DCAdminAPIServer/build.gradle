@@ -14,10 +14,9 @@ apply plugin: 'java'
 apply plugin: 'eclipse-wtp'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
-apply plugin: 'war'
 
 group = 'com.digicap'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
 sourceCompatibility = 1.8
 
 repositories {
@@ -46,4 +45,8 @@ dependencies {
 	runtimeOnly('org.postgresql:postgresql')
 	providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
+	
+	    // Request, Response Logging
+    // https://mvnrepository.com/artifact/org.zalando/logbook-spring-boot-starter
+    compile group: 'org.zalando', name: 'logbook-spring-boot-starter', version: '1.11.2'
 }
